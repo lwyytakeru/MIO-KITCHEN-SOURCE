@@ -96,7 +96,7 @@ if os.name == 'nt':
     from .sv_ttk_fixes import *
 from src.core.extra import fspatch, re, contextpatch
 from src.core.utils import create_thread, move_center, v_code, gettype, is_empty_img, findfile, findfolder, Sdat2img, \
-    Unxz
+    Unxz, is_linux
 from .controls import ListBox, ScrollFrame, input_
 from src.core.undz import DZFileTools
 from src.core.selinux_audit_allow import main as selinux_audit_allow

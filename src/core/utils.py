@@ -84,7 +84,7 @@ formats = ([b'PK', "zip"], [b'OPPOENCRYPT!', "ozip"], [b'7z', "7z"], [b'\x53\xef
            [b'###\x00|\x00\x00\x00LOGO_TABLE\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00P',
             'guoke_logo']
            )
-
+is_linux = platform.system() == 'Linux'
 # ----DEFS
 if os.name == 'nt':
     from ctypes import windll
