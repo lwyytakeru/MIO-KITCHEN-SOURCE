@@ -479,26 +479,43 @@ def create_thread(func, *args, join=False, deamon: bool = True):
         t.join()
 
 
-def simg2img(path):
-    """
-    convert Sparse image to Raw Image
-    :param path:
-    :return:
-    """
-    with open(path, 'rb') as fd:
-        if SparseImage(fd).check():
-            print('Sparse image detected.')
+if not is_linux:
+    def simg2img_only(path: str):
+        """
+        convert Sparse image to Raw Image
+        :param path:
+        :return:
+        """
+        with open(path, 'rb') as fd:
+            if SparseImage(fd).check():
+                print('Sparse image detected.')
+                print('Converting to raw image...')
+                unsparse_file = SparseImage(fd).unsparse()
+                print('Result:[ok]')
+            else:
+                print(f"{path} not Sparse.Skip!")
+        try:
+            if os.path.exists(unsparse_file):
+                os.remove(path)
+                os.rename(unsparse_file, path)
+        except Exception as e:
+            print(e)
+else:
+    from src.c_module.libutils import simg2img
+    def simg2img_only(path: str):
+        if os.path.exists(path) and gettype(path) == 'sparse':
             print('Converting to raw image...')
-            unsparse_file = SparseImage(fd).unsparse()
-            print('Result:[ok]')
-        else:
-            print(f"{path} not Sparse.Skip!")
-    try:
-        if os.path.exists(unsparse_file):
-            os.remove(path)
-            os.rename(unsparse_file, path)
-    except Exception as e:
-        print(e)
+            unsparse_file = path + ".unsparse"
+            if not simg2img([path], unsparse_file):
+                print('Result:[ok]')
+                try:
+                    if os.path.exists(unsparse_file):
+                        os.remove(path)
+                        os.rename(unsparse_file, path)
+                except Exception as e:
+                    print(e)
+            else:
+                print("Result:[fault]")
 
 
 def img2sdat(input_image, out_dir='.', version=None, prefix='system'):

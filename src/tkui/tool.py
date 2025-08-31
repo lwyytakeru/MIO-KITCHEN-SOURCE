@@ -4907,7 +4907,7 @@ class PackHybridRom:
         if os.path.exists(path):
             if gettype(path) == "sparse":
                 print(f"[INFO] {basename} is (sparse), converting to (raw)")
-                utils.simg2img(path)
+                utils.simg2img_only(path)
             try:
                 print(f"[Compress] {basename}...")
                 call(['zstd', '-5', '--rm', path, '-o', f'{path}.zst'])
@@ -6203,7 +6203,7 @@ def unpack(chose, form: str = '') -> bool:
         if file_type == "sparse":
             print(lang.text79 + f"super.img [{file_type}]")
             try:
-                utils.simg2img(f"{work}/super.img")
+                utils.simg2img_only(f"{work}/super.img")
             except (Exception, BaseException):
                 win.message_pop(lang.warn11.format("super.img"))
         if gettype(f"{work}/super.img") == 'super':
@@ -6283,7 +6283,7 @@ def unpack(chose, form: str = '') -> bool:
             if file_type == "sparse":
                 print(lang.text79 + f"{i}.img[{file_type}]")
                 try:
-                    utils.simg2img(f"{work}/{i}.img")
+                    utils.simg2img_only(f"{work}/{i}.img")
                 except (Exception, BaseException):
                     win.message_pop(lang.warn11.format(f"{i}.img"))
             if i not in parts.keys():
@@ -7219,7 +7219,7 @@ class FormatConversion(ttk.LabelFrame):
                         else:
                             print("transferfile" + lang.text84)
                 if hget == 'sparse':
-                    utils.simg2img(f'{work}/{i}')
+                    utils.simg2img_only(f'{work}/{i}')
             elif f_get == 'dat':
                 if hget == 'raw':
                     img2simg(f'{work}/{i}')
